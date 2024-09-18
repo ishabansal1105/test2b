@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            background: linear-gradient(to right, #a1c4fd, #c2e9fb); /* New background color */
+            color: #333;
+            font-family: 'Lucida Sans', sans-serif;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 { color: #fff; }
+        h2 { color: #ffcc00; }
+        input, button {
+            padding: 12px;
+            margin: 8px 0;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            width: 220px;
+            transition: border-color 0.3s;
+        }
+        input:focus { border-color: #ffcc00; }
+        button {
+            background-color: #ffcc00;
+            color: #333;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        button:hover { background-color: #e6b800; }
+        .error { color: red; }
+        .confirmation { margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Book Your Dinner!</h1>
+
+    <label for="name">Name:</label>
+    <input type="text" id="name">
+
+    <label for="phone">Phone Number:</label>
+    <input type="text" id="phone"><br>
+
+    <label for="Favourite cuisine">Favourite cuisine:</label>
+    <input type="text" id="Favourite cuisine"><br>
+
+    <h2>Select a Time</h2>
+    <input type="radio" id="first" name="time" value="5" checked>
+    <label for="first">5:00</label>
+    <input type="radio" id="second" name="time" value="6">
+    <label for="second">6:00</label>
+    <input type="radio" id="third" name="time" value="7">
+    <label for="third">7:00</label>
+    <input type="radio" id="fourth" name="time" value="8">
+    <label for="fourth">8:00</label><br>
+
+    <h2>What Would You Like?</h2>
+    <input type="checkbox" id="starters" name="food" value="Starters">
+    <label for="starters">Starters</label>
+    <input type="checkbox" id="main" name="food" value="Main Course">
+    <label for="main">Main Course</label>
+    <input type="checkbox" id="dessert" name="food" value="Dessert">
+    <label for="dessert">Dessert</label>
+    <input type="checkbox" id="drinks" name="food" value="Drinks">
+    <label for="drinks">Drinks</label><br>
+
+    <button id="submit">Submit</button>
+    <div id="error-message" class="error"></div>
+    <div id="confirmation" class="confirmation"></div>
+
+    <script>
+        document.getElementById('submit').onclick = function() {
+            const nameInput = document.getElementById('name').value.trim();
+            const phoneInput = document.getElementById('phone').value.trim();
+            const errorMessage = document.getElementById('error-message');
+            const confirmation = document.getElementById('confirmation');
+
+            errorMessage.textContent = ''; // Clear previous error messages
+            confirmation.textContent = ''; // Clear previous confirmation
+
+            // Validate name
+            if (nameInput === '' || nameInput.split(' ').length < 2) {
+                errorMessage.textContent = 'Error: Please enter your full name.';
+                return;
+            }
+
+            // Validate phone
+            if (phoneInput === '' || phoneInput.length !== 6 || isNaN(phoneInput)) {
+                errorMessage.textContent = 'Error: Phone number must be exactly 6 digits.';
+                return;
+            }
+
+            // If everything is valid
+            const selectedTime = document.querySelector('input[name="time"]:checked').value;
+            const selectedFoods = Array.from(document.querySelectorAll('input[name="food"]:checked'))
+                .map(checkbox => checkbox.value)
+                .join(', ');
+
+            confirmation.textContent = `Confirmed! Name: ${nameInput}, Phone: ${phoneInput}, Time: ${selectedTime}:00, Food: ${selectedFoods || 'None'}`;
+        }
+    </script>
+</body>
+</html>
